@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
+import { isAuthSessionMissingError } from "@supabase/supabase-js";
 import {
   db,
   errorMessage,
@@ -32,12 +33,16 @@ export function useInstitutions() {
     if (!db) return;
     try {
       const { data, error: authIssue } = await db.auth.getUser();
-      if (authIssue) throw authIssue;
+      // A visitor without a session is signed out, not a backend outage.
+      if (authIssue && !isAuthSessionMissingError(authIssue)) throw authIssue;
       if (!data.user) {
         setAccount(null);
         setInstitutions([]);
         setActiveId("");
         setRequestWorkspace(null);
+        setSelection({ yearId: "", trackId: "", subjectId: "", groupId: "" });
+        setRecent([]);
+        setError("");
         return;
       }
       const next = await loadProfile(data.user.id);

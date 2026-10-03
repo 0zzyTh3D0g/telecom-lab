@@ -1,5 +1,15 @@
 import { expect, test } from '@playwright/test'
 
+test('signed-out visitor reaches login without an Auth session missing error', async ({ page }) => {
+  // No mocked session or Auth response: exercise the SDK's actual no-session result.
+  await page.goto('/#/login')
+  await expect(page.getByLabel('Username', { exact: true })).toBeVisible()
+  await expect(page.getByLabel('Password', { exact: true })).toBeVisible()
+  await expect(page.getByRole('alert')).toHaveCount(0)
+  await page.goto('/#/manage')
+  await expect(page.getByLabel('Username', { exact: true })).toBeVisible()
+})
+
 test('shell, privacy and responsive layout stay usable without configured backend', async ({ page }) => {
   for (const width of [320,375,768,1024,1440]) {
     await page.setViewportSize({ width, height: 900 })

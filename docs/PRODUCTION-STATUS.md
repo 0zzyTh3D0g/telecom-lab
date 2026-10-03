@@ -20,6 +20,15 @@ Aggiornato: 3 ottobre 2026. **Backend installato; pubblicazione frontend in cors
 
 GitHub CLI autorizzata il 3 ottobre 2026. Repository pubblico `https://github.com/0zzyTh3D0g/telecom-lab` creato dopo verifica che non esistesse un repository Telecom/lab nell’account. Variables pubbliche configurate senza stamparne i valori. Pages configurato con GitHub Actions e HTTPS; URL assegnato `https://0zzyth3d0g.github.io/telecom-lab/`, raggiungibilità da verificare dopo il workflow. Nessuna richiesta di inviare password/token in chat.
 
+## Prima pubblicazione e correzione smoke
+
+- Commit iniziale `e63374f`: workflow `37104288883` riuscito, build e deploy PASS. CI: typecheck, lint (13 warning/0 errori), 37 unit/database, 4 configurazione, 9 E2E PASS e 1 live locale skipped.
+- Pages HTTPS raggiungibile (200) con asset sotto `/telecom-lab/`. ALLOWED_ORIGINS aggiornato con `https://0zzyth3d0g.github.io`, oltre alle quattro origini localhost.
+- Smoke backend: Auth/settings 200 con signup disabilitato; CORS Pages corretto per entrambe le Edge; POST senza bearer 403; schema privato via Data API 406.
+- Smoke frontend ha identificato un difetto reale: `AuthSessionMissingError` sul primo accesso anonimo impediva il modulo login. Corretto soltanto questo stato atteso; gli altri errori Auth restano segnalati. Aggiunto E2E senza sessione/mocking Auth per login e protezione Gestione. Ripubblicazione e smoke conclusivo in corso.
+- Verifica SQL dopo bootstrap: tutte le sette migration allineate, tutte le tabelle con RLS, zero SECURITY DEFINER public, funzioni private con search_path vuoto e owner postgres; un Owner e zero contenuti production.
+- Verifica della correzione: prima esecuzione locale contemporanea dei gate e di quattro worker browser ha prodotto timeout (test workspace 30 s e attesa PDF 10 s). Nessun timeout aumentato o test rimosso. Riesecuzione separata di `npm run check` PASS: 37/37 PostgreSQL/unit, 4/4 configurazione, typecheck/lint/build. E2E rieseguiti separatamente con due worker come in CI: 10 PASS, 1 live locale skipped (55 s), incluso il test PDF e la regressione login.
+
 ## Audit e modifiche locali
 
 - Base Telecom/lab P3.2, sette migration, due Edge Functions, bootstrap SQL Owner, hash routing e workflow Pages esistente verificati.
