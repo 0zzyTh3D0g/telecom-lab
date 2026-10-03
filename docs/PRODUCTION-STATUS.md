@@ -1,60 +1,81 @@
-# Preparazione prima installazione production
+# Prima installazione production — esito verificato
 
-Aggiornato: 3 ottobre 2026. **Backend installato; pubblicazione frontend in corso.**
+Aggiornato: **3 ottobre 2026**. Frontend pubblicato e smoke anonimo PASS.
 
-## Aggiornamento dopo autenticazione Supabase
+- Sito: https://0zzyth3d0g.github.io/telecom-lab/
+- Repository: https://github.com/0zzyTh3D0g/telecom-lab
+- Deploy verificato: commit `3a803ff8b5bfa0efdeb292d9727b0c54bae8ee76`, workflow https://github.com/0zzyTh3D0g/telecom-lab/actions/runs/37104844507 — build e deploy **success**.
+- Costo obbligatorio **0 €**: repository pubblico/Pages/Actions e Supabase FREE. Nessun upgrade, servizio premium o componente a pagamento introdotto.
 
-- Progetto unico disponibile: `jmicelkavsdxtfzvlftq`, organizzazione `telecom-lab`, piano **FREE** verificato nella dashboard, regione eu-west-1, PostgreSQL 17.11.
-- Repository collegato tramite CLI. Preflight remoto: nessuna tabella public, nessuna migration e zero identità Auth.
-- `db push --dry-run --linked --skip-vault`: esattamente sette migration, zero seed/ruoli aggiuntivi. Revisione SQL senza cancellazione di tabelle/dati di questa installazione vuota.
-- `db push --linked --skip-vault`: sette migration applicate con successo, da `202609300001` a `202610010007`. Nessun reset/seed.
-- Verifica SQL remota: tutte le tabelle applicative con RLS; zero SECURITY DEFINER public; tutte le funzioni privilegiate private con search_path vuoto, owner postgres; nessun EXECUTE RPC o SELECT tabella ad anon. Catalogo e profili ancora vuoti.
-- Security Advisor CLI: nessun problema WARN/ERROR segnalato.
-- `admin-accounts` e `change-password`: entrambe **ACTIVE, versione 1**, distribuite tramite CLI/API. ALLOWED_ORIGINS configurato per localhost/127.0.0.1 sulle porte 5173/4173. Origine Pages da aggiungere quando nota.
-- Config diff esaminato: una sola proprietà dichiarata diversa, `auth.enable_signup`. Push selettivo riuscito: signup pubblico disabilitato; dodici proprietà remote non dichiarate conservate. API schemas già corretti, app_private escluso.
-- `.env.local` configurato con soli URL e chiave publishable/anon, escluso da Git; nessuna chiave privilegiata stampata o salvata. Controllo configurazione production PASS.
-- Build con backend reale configurato PASS; bundle principale circa 523 kB/150 kB gzip. Vite segnala il chunk oltre 500 kB: warning dichiarato, non errore; nessun limite aumentato per nasconderlo.
-- Smoke remoto: Auth raggiungibile e signup disabilitato; entrambe Edge raggiungibili, CORS localhost consentito e POST senza bearer rifiutato con 403. App_private respinto via Data API con 406/PGRST106. Il probe iniziale sull’indice OpenAPI richiedeva una secret key: verificata invece la route di tabella, senza utilizzare chiavi privilegiate.
-- Primo Owner: identità Auth creata e confermata dall’utente; bootstrap eseguito con lo script esistente. Verifica SQL: username `admin`, ruolo `owner` nel workspace iniziale, profilo e membership abilitati, `must_change_password=true`. Password non acquisita né conservata dall’agente. Il primo accesso richiede il cambio password.
-- GitHub CLI 2.102.0 installata come strumento locale da release ufficiale, SHA256 verificato. Nessuna autenticazione GitHub presente; nessun remoto/commit/push/Pages effettuato.
+## Supabase e sicurezza
 
-GitHub CLI autorizzata il 3 ottobre 2026. Repository pubblico `https://github.com/0zzyTh3D0g/telecom-lab` creato dopo verifica che non esistesse un repository Telecom/lab nell’account. Variables pubbliche configurate senza stamparne i valori. Pages configurato con GitHub Actions e HTTPS; URL assegnato `https://0zzyth3d0g.github.io/telecom-lab/`, raggiungibilità da verificare dopo il workflow. Nessuna richiesta di inviare password/token in chat.
+Progetto `jmicelkavsdxtfzvlftq`, organizzazione `telecom-lab`, piano FREE verificato nella dashboard; regione eu-west-1, PostgreSQL 17.11. URL `https://jmicelkavsdxtfzvlftq.supabase.co`.
 
-## Prima pubblicazione e correzione smoke
+Preflight prima installazione: database applicativo vuoto, zero identità Auth e nessuna migration. Dry run esaminato: sette migration previste, nessun seed/ruolo aggiuntivo; applicazione riuscita senza reset. History locale/remota ricontrollata dopo il bootstrap: tutte allineate.
 
-- Commit iniziale `e63374f`: workflow `37104288883` riuscito, build e deploy PASS. CI: typecheck, lint (13 warning/0 errori), 37 unit/database, 4 configurazione, 9 E2E PASS e 1 live locale skipped.
-- Pages HTTPS raggiungibile (200) con asset sotto `/telecom-lab/`. ALLOWED_ORIGINS aggiornato con `https://0zzyth3d0g.github.io`, oltre alle quattro origini localhost.
-- Smoke backend: Auth/settings 200 con signup disabilitato; CORS Pages corretto per entrambe le Edge; POST senza bearer 403; schema privato via Data API 406.
-- Smoke frontend ha identificato un difetto reale: `AuthSessionMissingError` sul primo accesso anonimo impediva il modulo login. Corretto soltanto questo stato atteso; gli altri errori Auth restano segnalati. Aggiunto E2E senza sessione/mocking Auth per login e protezione Gestione. Ripubblicazione e smoke conclusivo in corso.
-- Verifica SQL dopo bootstrap: tutte le sette migration allineate, tutte le tabelle con RLS, zero SECURITY DEFINER public, funzioni private con search_path vuoto e owner postgres; un Owner e zero contenuti production.
-- Verifica della correzione: prima esecuzione locale contemporanea dei gate e di quattro worker browser ha prodotto timeout (test workspace 30 s e attesa PDF 10 s). Nessun timeout aumentato o test rimosso. Riesecuzione separata di `npm run check` PASS: 37/37 PostgreSQL/unit, 4/4 configurazione, typecheck/lint/build. E2E rieseguiti separatamente con due worker come in CI: 10 PASS, 1 live locale skipped (55 s), incluso il test PDF e la regressione login.
+Migration applicate, ora immutabili:
 
-## Audit e modifiche locali
+1. `202609300001_phase2.sql`
+2. `202609300002_phase21_hardening.sql`
+3. `202610010003_phase3_workspace.sql`
+4. `202610010004_phase31_context_curriculum.sql`
+5. `202610010005_phase32_academic_lifecycle.sql`
+6. `202610010006_phase32_activity_reports.sql`
+7. `202610010007_phase32_integrity_guards.sql`
 
-- Base Telecom/lab P3.2, sette migration, due Edge Functions, bootstrap SQL Owner, hash routing e workflow Pages esistente verificati.
-- Quattro migration precedenti confrontate con archivio P3.1: byte identici. Nessuna migration modificata in questa preparazione.
-- Stato iniziale dell’audit: nessun remoto Git o progetto Supabase collegato; `.env.example` senza valori production. Successivamente Supabase collegato e Git inizializzato su `main`; 146 file preparati, senza commit/remoto/push. `.env.local`, cache CLI e file generati esclusi; scansione dei file preparati senza credenziali private reali.
-- Aggiunti AGENTS.md con PRODUCTION DATA SAFETY, procedura production, script check/dry run e gate frontend contro configurazione mancante o chiavi privilegiate.
-- Config locale: seed disabilitati, signup/anonymous sign-in disabilitati, app_private escluso dagli schemi API. Signup remoto e isolamento app_private verificati come riportato sopra.
-- CLI Supabase 2.119.0 disponibile attraverso npx; deploy Edge via API disponibile senza Docker.
+Verifica SQL remota del 3 ottobre (`supabase/production-check.sql`): tutte le tabelle applicative con RLS, zero SECURITY DEFINER in public, funzioni privilegiate private con search_path vuoto e owner postgres; nessun EXECUTE RPC applicativo/SELECT tabella ad anon. Una identità Auth, un profilo, un Owner, **zero contenuti** production. Security Advisor eseguito durante installazione: nessuna segnalazione WARN/ERROR.
 
-## Risultati realmente eseguiti
+Signup pubblico disabilitato mediante config push selettivo: modificata solo la proprietà dichiarata divergente, conservate dodici proprietà remote non dichiarate. `app_private` escluso dalla Data API, rifiuto remoto 406/PGRST106 verificato. Il primo probe sull’indice OpenAPI richiedeva una secret key; verificata invece la route di tabella, senza utilizzare chiavi privilegiate.
 
-| Controllo | Esito |
+## Edge Functions e primo Owner
+
+`admin-accounts` e `change-password`: entrambe ACTIVE, versione 1; Deno check PASS. Runtime keys gestite da Supabase. Unico secret custom `ALLOWED_ORIGINS`: localhost e 127.0.0.1 sulle porte 5173/4173, più `https://0zzyth3d0g.github.io` senza percorso repository.
+
+Identità iniziale creata e confermata dall’utente, bootstrap eseguito tramite SQL esistente. Verifica ruolo: username `admin`, Owner nel workspace iniziale `10000000-0000-4000-8000-000000000001`, profilo/membership abilitati, `must_change_password=true`. Password non acquisita né conservata dall’agente. Non rieseguire il bootstrap.
+
+## GitHub e protezione aggiornamenti
+
+GitHub CLI autorizzata dall’utente. Nessun repository Telecom/lab preesistente nell’account: creata la repository pubblica `telecom-lab`, remoto origin e branch main. Configurate soltanto repository variables URL progetto e chiave publishable/anon. Pages usa GitHub Actions con HTTPS e base path `/telecom-lab/`.
+
+`.env.local`, credenziali, cache Supabase CLI, node_modules e build esclusi da Git. Scansione dei sorgenti preparati senza credenziali private reali. Quattro migration pregresse confrontate con archivio P3.1 e indice Git: byte identici; nessuna migration modificata. AGENTS.md e docs/PRODUCTION.md documentano PRODUCTION DATA SAFETY. I push distribuiscono solo il frontend, senza migration/reset/seed automatici.
+
+## Correzione trovata nello smoke
+
+Prima pubblicazione `e63374f`, workflow `37104288883` riuscito. Smoke reale ha rilevato che `AuthSessionMissingError` sul primo accesso anonimo impediva il login. Corretto lo stato di sessione assente in `useInstitutions`; gli altri errori Auth restano segnalati. Aggiunto E2E senza sessione e senza mocking Auth per login e protezione Gestione. Seconda pubblicazione `3a803ff`, workflow `37104844507` riuscito; smoke ripetuto PASS.
+
+## Controlli realmente eseguiti
+
+| Controllo | Esito finale |
 | --- | --- |
-| npm ci | PASS; 0 vulnerabilità segnalate |
-| typecheck | PASS |
-| lint | Exit 0; 13 warning React/Fast Refresh, 0 errori |
-| unit/database | 37/37, 14 file; PostgreSQL/RLS reali PGlite |
-| gate configurazione production | 4/4; blocca missing config e chiavi privilegiate, non stampa valori |
-| build | PASS |
-| E2E eseguibili | 9 PASS, 1 live locale skipped; circa 60 s |
-| Deno check admin-accounts/change-password | PASS |
+| npm ci | PASS; zero vulnerabilità riportate |
+| typecheck | PASS locale e CI |
+| lint | PASS; 13 warning React/Fast Refresh, zero errori |
+| unit/database PostgreSQL/RLS PGlite | 37/37, 14 file; PASS locale e CI |
+| configurazione production | 4/4; PASS locale e CI, chiavi privilegiate/missing config bloccate |
+| E2E eseguibili | 10 PASS, 1 live locale skipped; locale 55 s, CI 36 s |
+| production build | PASS locale e CI |
+| Deno check due Edge | PASS |
+| migration history e audit SQL remoto | PASS; sette versioni allineate |
+| workflow Pages build/deploy | PASS |
 
-Il test live Auth/Edge resta saltato senza Supabase locale/Docker configurato. Il typecheck Deno è stato ora eseguito, diversamente dal precedente report di rilascio P3.2. Il controllo statico delle chiavi non dimostra la connessione a un progetto: questa verifica richiede i valori remoti corretti.
+Una prima esecuzione locale contemporanea dei gate e di quattro worker browser ha prodotto due timeout (test workspace 30 s, attesa PDF 10 s). Riesecuzioni separate: tutti i gate PASS, E2E con due worker come in CI. Nessun timeout aumentato o test rimosso.
 
-## Passaggi remoti residui
+Warning residui: 13 lint; bundle principale circa 523 kB/150 kB gzip oltre soglia Vite 500 kB; Actions preesistenti segnalano runtime Node 20 in transizione al runtime 24. Nessun warning nascosto aumentando limiti. Questi warning non hanno impedito il deploy.
 
-Commit/push, verifica workflow e raggiungibilità URL Pages, CORS dell’origine Pages, smoke frontend production e login autenticato autorizzato.
+## Smoke production finale
 
-Nessun database remoto cancellato/reset, nessun seed remoto, nessun push GitHub eseguito. Il backend è installato; URL frontend production non disponibile. Nessuna risorsa a pagamento creata; vincolo costo 0 € mantenuto.
+- HTTPS sito 200; frontend, asset/base path e footer corretto caricati.
+- Login e Privacy raggiungibili; Gestione senza sessione presenta login.
+- Login senza overflow a 320/375/768/1024/1440 px.
+- Zero errori console/runtime, richieste fallite o HTTP inattesi nel frontend.
+- Auth/settings 200, signup pubblico disabilitato.
+- Entrambe Edge: CORS Pages consentito, POST senza bearer 403.
+- Schema privato via Data API negato 406.
+
+Smoke esclusivamente in lettura: zero scritture di test production. Report JSON e screenshot salvati fuori dal repository in outputs/production-smoke.json e outputs/production-login.png.
+
+## Azione manuale residua e limiti
+
+Accedere al sito con username `admin` e la password scelta durante la creazione Auth; completare il cambio password obbligatorio. Login autenticato e workflow didattico completo in production **non eseguiti**: l’agente non dispone della password. Il test live Auth/Edge locale resta skipped senza Supabase locale/Docker; i test fixture/PostgreSQL sono passati, ma non sostituiscono quel flusso Auth reale.
+
+Nessun database remoto cancellato/reset, nessun seed/fixture production, nessuna migration già applicata modificata, nessun dato storico cancellato. Costo richiesto 0 € mantenuto.
