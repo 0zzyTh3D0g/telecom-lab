@@ -1,0 +1,19 @@
+project_id = "telecomlab"
+
+# Local configuration. Remote Auth/API settings must also be checked explicitly.
+[api]
+schemas = ["public", "graphql_public"]
+
+[auth]
+enable_signup = false
+enable_anonymous_sign_ins = false
+
+[db.seed]
+enabled = false
+sql_paths = []
+
+[functions.admin-accounts]
+verify_jwt = false
+
+[functions.change-password]
+verify_jwt = false

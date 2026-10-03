@@ -1,0 +1,14 @@
+{
+  "schemaVersion": 1, "id": "grandezze-periodiche", "slug": "grandezze-periodiche", "title": "Grandezze periodiche", "summary": "Periodo, frequenza e pulsazione: il vocabolario essenziale dei fenomeni che si ripetono.", "year": 3, "module": "Segnali", "topic": "Fondamenti", "difficulty": "base", "prerequisites": [], "tags": ["periodo", "frequenza", "pulsazione"], "order": 1, "related": ["segnale-sinusoidale", "frequenza-periodo"],
+  "blocks": [
+    {"type":"paragraph","text":"Molti fenomeni elettrici e fisici si ripetono nel tempo. Per descriverli servono grandezze che indichino quanto dura un ciclo e quante volte si ripete."},
+    {"type":"definition","title":"Periodo","text":"Il periodo T è il tempo necessario per completare un ciclo. Si misura in secondi [s]."},
+    {"type":"definition","title":"Frequenza","text":"La frequenza f indica il numero di cicli compiuti in un secondo. Si misura in hertz [Hz]."},
+    {"type":"formula","latex":"f=\\frac{1}{T} \\qquad T=\\frac{1}{f}","caption":"Periodo e frequenza sono grandezze reciproche.","variables":[{"symbol":"f","description":"frequenza","unit":"Hz"},{"symbol":"T","description":"periodo","unit":"s"}]},
+    {"type":"heading","level":2,"text":"Dalla frequenza alla pulsazione"},
+    {"type":"paragraph","text":"Un ciclo completo corrisponde a $2\\pi$ radianti. La pulsazione misura la velocità con cui varia la fase."},
+    {"type":"formula","latex":"\\omega=2\\pi f","variables":[{"symbol":"ω","description":"pulsazione","unit":"rad/s"},{"symbol":"f","description":"frequenza","unit":"Hz"}]},
+    {"type":"workedExample","title":"Una grandezza a 50 Hz","givens":["f = 50 Hz"],"steps":["Applica T = 1/f.","T = 1/50 s = 0,02 s.","Converti: 0,02 s = 20 ms."],"result":"Il periodo è 20 ms."},
+    {"type":"keyPoints","items":["Un periodo corrisponde a un ciclo completo.","Se la frequenza aumenta, il periodo diminuisce.","Per convertire secondi in millisecondi si moltiplica per 1000."]}
+  ]
+}

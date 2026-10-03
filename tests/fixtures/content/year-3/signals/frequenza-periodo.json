@@ -1,0 +1,11 @@
+{
+  "schemaVersion":1,"id":"frequenza-periodo","slug":"frequenza-periodo","title":"Frequenza e periodo","summary":"Convertire tra hertz, secondi e millisecondi con un esercizio guidato.","year":3,"module":"Segnali","topic":"Fondamenti","difficulty":"base","prerequisites":["grandezze-periodiche"],"tags":["frequenza","periodo","esercizi"],"order":3,"related":["segnale-sinusoidale"],
+  "blocks":[
+    {"type":"paragraph","text":"Per passare da frequenza a periodo si usa una relazione semplice, ma è importante controllare sempre l’unità del risultato."},
+    {"type":"formula","latex":"T=\\frac{1}{f}","variables":[{"symbol":"T","description":"periodo","unit":"s"},{"symbol":"f","description":"frequenza","unit":"Hz"}]},
+    {"type":"guidedExercise","title":"Calcola il periodo","prompt":"Un segnale periodico ha frequenza di 500 Hz.","data":["f = 500 Hz"],"objective":"Trova il periodo prima in secondi e poi in millisecondi.","steps":[{"prompt":"Qual è il periodo in secondi? Inserisci valore e unità.","answer":{"kind":"number","value":0.002,"tolerance":0.000001,"unit":"s"},"hints":["Usa T = 1/f.","Sostituisci f con 500 Hz e calcola 1/500."],"explanation":"T = 1/500 s = 0,002 s."},{"prompt":"Converti il risultato in millisecondi.","answer":{"kind":"number","value":0.002,"tolerance":0.000001,"unit":"s"},"hints":["1 ms = 0,001 s.","Il valore è 2 ms; puoi scrivere 2 ms."],"explanation":"0,002 s = 2 ms."}],"solution":"T = 1/500 Hz = 0,002 s = 2 ms."},
+    {"type":"note","text":"Il controllo numerico accetta i prefissi SI: 2 ms e 0,002 s rappresentano la stessa durata."},
+    {"type":"parametricExercise","title":"Prova con un nuovo valore","solverId":"period-from-frequency","frequency":{"min":100,"max":1000,"step":50,"unit":"Hz"}},
+    {"type":"table","columns":["Frequenza","Periodo"],"rows":[["1 Hz","1 s"],["10 Hz","100 ms"],["100 Hz","10 ms"],["1 kHz","1 ms"]]}
+  ]
+}

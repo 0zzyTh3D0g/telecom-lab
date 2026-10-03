@@ -1,0 +1,11 @@
+{
+  "schemaVersion":1,"id":"legge-ohm","slug":"legge-ohm","title":"Legge di Ohm","summary":"La relazione tra tensione, corrente e resistenza in un circuito semplice.","year":3,"module":"Circuiti","topic":"Elettrotecnica","difficulty":"base","prerequisites":[],"tags":["tensione","corrente","resistenza"],"order":4,"related":["decibel"],
+  "blocks":[
+    {"type":"paragraph","text":"In un resistore ideale la tensione ai capi è proporzionale alla corrente che lo attraversa."},
+    {"type":"formula","latex":"V=R\\cdot I","variables":[{"symbol":"V","description":"tensione","unit":"V"},{"symbol":"R","description":"resistenza","unit":"Ω"},{"symbol":"I","description":"corrente","unit":"A"}]},
+    {"type":"comparison","title":"Variazione dei parametri","left":{"title":"R costante","items":["Aumentando V aumenta I.","La relazione tra V e I è lineare."]},"right":{"title":"V costante","items":["Aumentando R diminuisce I.","I = V/R."]}},
+    {"type":"simulation","simulationId":"ohm-law","title":"Calcolatore interattivo della legge di Ohm","config":{}},
+    {"type":"workedExample","title":"Resistore da 220 Ω","givens":["V = 11 V","R = 220 Ω"],"steps":["Isola la corrente: I = V/R.","Sostituisci: I = 11/220 A.","Converti in milliampere."],"result":"I = 0,05 A = 50 mA."},
+    {"type":"keyPoints","items":["V si misura in volt.","I si misura in ampere.","R si misura in ohm."]}
+  ]
+}

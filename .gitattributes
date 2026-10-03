@@ -1,0 +1,3 @@
+# Preserve the exact bytes of applied migrations and existing brand assets.
+supabase/migrations/*.sql -text whitespace=cr-at-eol
+public/brand/*.svg -text whitespace=cr-at-eol

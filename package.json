@@ -1,0 +1,40 @@
+{
+  "name": "telecomunicazioni",
+  "private": true,
+  "version": "3.2.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "typecheck": "tsc -b --pretty false",
+    "check": "npm run typecheck && npm run lint && npm test && npm run build",
+    "check:production": "node scripts/production-config.mjs",
+    "migration:dry-run": "npx --yes supabase@2.119.0 db push --linked --dry-run --skip-vault",
+    "lint": "oxlint",
+    "test": "vitest run src --maxWorkers=2 && node --test scripts/production-config.test.mjs",
+    "test:e2e": "playwright test",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.117.2",
+    "katex": "^0.18.9",
+    "lucide-react": "^1.49.0",
+    "pdfjs-dist": "^6.3.289",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
+    "zod": "^4.6.5"
+  },
+  "devDependencies": {
+    "@electric-sql/pglite": "^0.5.8",
+    "@playwright/test": "^1.63.0",
+    "@types/katex": "^0.16.8",
+    "@types/node": "^24.13.3",
+    "@types/react": "^19.2.18",
+    "@types/react-dom": "^19.2.7",
+    "@vitejs/plugin-react": "^6.1.1",
+    "oxlint": "^1.81.0",
+    "typescript": "~6.0.2",
+    "vite": "^8.3.0",
+    "vitest": "^5.0.2"
+  }
+}

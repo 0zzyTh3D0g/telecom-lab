@@ -1,0 +1,11 @@
+{
+  "schemaVersion":1,"id":"modulazione-am","slug":"modulazione-am","title":"Modulazione di ampiezza AM","summary":"Il segnale modulante varia l’ampiezza di una portante ad alta frequenza.","year":4,"module":"Modulazione","topic":"Modulazioni analogiche","difficulty":"intermedio","prerequisites":["segnale-sinusoidale","spettro-segnale"],"tags":["AM","portante","modulante"],"order":3,"related":["rumore-snr"],
+  "blocks":[
+    {"type":"paragraph","text":"Nella modulazione di ampiezza, l’informazione contenuta nel segnale modulante modifica l’ampiezza di una portante sinusoidale."},
+    {"type":"definition","title":"Portante e modulante","text":"La portante è un’oscillazione a frequenza relativamente alta; il modulante è il segnale che porta l’informazione."},
+    {"type":"formula","latex":"s(t)=A_c[1+m\\cos(2\\pi f_m t)]\\cos(2\\pi f_c t)","variables":[{"symbol":"A꜀","description":"ampiezza della portante"},{"symbol":"m","description":"indice di modulazione"},{"symbol":"fₘ","description":"frequenza modulante","unit":"Hz"},{"symbol":"f꜀","description":"frequenza portante","unit":"Hz"}]},
+    {"type":"simulation","simulationId":"am-wave","title":"Esplora la modulazione AM","config":{}},
+    {"type":"important","text":"Per una modulazione AM convenzionale senza sovramodulazione si usa 0 ≤ m ≤ 1."},
+    {"type":"recap","text":"L’inviluppo del segnale modulato riproduce l’andamento del modulante."}
+  ]
+}

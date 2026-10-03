@@ -1,0 +1,11 @@
+{
+  "schemaVersion":1,"id":"decibel","slug":"decibel","title":"Decibel e rapporti di potenza","summary":"Una scala logaritmica per descrivere guadagni e attenuazioni.","year":3,"module":"Telecomunicazioni","topic":"Livelli e guadagno","difficulty":"intermedio","prerequisites":[],"tags":["decibel","guadagno","potenza"],"order":5,"related":["rumore-snr"],
+  "blocks":[
+    {"type":"paragraph","text":"Il decibel esprime il rapporto tra due potenze su scala logaritmica. Non è una potenza assoluta: confronta sempre due grandezze omogenee."},
+    {"type":"formula","latex":"G_{dB}=10\\log_{10}\\left(\\frac{P_{out}}{P_{in}}\\right)","variables":[{"symbol":"G","description":"guadagno o attenuazione","unit":"dB"},{"symbol":"Pout","description":"potenza in uscita","unit":"W"},{"symbol":"Pin","description":"potenza in ingresso","unit":"W"}]},
+    {"type":"list","items":["Un rapporto di potenza pari a 10 corrisponde a +10 dB.","Un rapporto pari a 1 corrisponde a 0 dB.","Un rapporto pari a 0,1 corrisponde a −10 dB."]},
+    {"type":"simulation","simulationId":"decibel-gain","title":"Esplora il guadagno in decibel","config":{}},
+    {"type":"example","title":"Da 2 W a 20 W","text":"Il rapporto è 20/2 = 10. Il guadagno è quindi 10 log₁₀(10) = 10 dB."},
+    {"type":"important","text":"Per rapporti di tensione si usa 20 log₁₀ solo quando le impedenze di riferimento sono uguali."}
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "schemaVersion":1,"id":"rumore-snr","slug":"rumore-snr","title":"Rumore e rapporto SNR","summary":"Quantificare il rapporto tra potenza del segnale utile e rumore.","year":4,"module":"Trasmissione","topic":"Qualità del segnale","difficulty":"intermedio","prerequisites":["decibel"],"tags":["rumore","SNR","decibel"],"order":2,"related":["modulazione-am"],
+  "blocks":[
+    {"type":"paragraph","text":"Il rumore è una perturbazione non desiderata che si sovrappone al segnale utile. Il rapporto segnale-rumore confronta le rispettive potenze."},
+    {"type":"formula","latex":"\\mathrm{SNR}=\\frac{P_S}{P_N} \\qquad \\mathrm{SNR}_{dB}=10\\log_{10}\\left(\\frac{P_S}{P_N}\\right)","variables":[{"symbol":"Pₛ","description":"potenza del segnale","unit":"W"},{"symbol":"Pₙ","description":"potenza del rumore","unit":"W"}]},
+    {"type":"workedExample","title":"Segnale da 1 W, rumore da 1 mW","givens":["Pₛ = 1 W","Pₙ = 1 mW = 0,001 W"],"steps":["Calcola il rapporto: 1 / 0,001 = 1000.","Applica 10 log₁₀(1000)."],"result":"SNR = 1000, cioè 30 dB."},
+    {"type":"important","text":"Un SNR più alto indica che il segnale utile prevale maggiormente sul rumore; non garantisce da solo una qualità perfetta."},
+    {"type":"keyPoints","items":["Prima di fare il rapporto, porta le potenze alla stessa unità.","SNR è adimensionale; SNRdB è espresso in decibel."]}
+  ]
+}

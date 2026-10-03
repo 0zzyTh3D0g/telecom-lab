@@ -1,0 +1,11 @@
+{
+  "schemaVersion":1,"id":"spettro-segnale","slug":"spettro-segnale","title":"Spettro di un segnale","summary":"Dalla rappresentazione nel tempo alle componenti in frequenza.","year":4,"module":"Segnali e sistemi","topic":"Analisi spettrale","difficulty":"intermedio","prerequisites":["segnale-sinusoidale"],"tags":["spettro","frequenza","armoniche"],"order":1,"related":["modulazione-am"],
+  "blocks":[
+    {"type":"paragraph","text":"La rappresentazione temporale mostra come varia un segnale. Lo spettro mostra invece le frequenze che lo compongono e la loro ampiezza."},
+    {"type":"definition","title":"Componente spettrale","text":"Una componente spettrale è una sinusoide identificata da frequenza, ampiezza e fase."},
+    {"type":"comparison","left":{"title":"Dominio del tempo","items":["Asse orizzontale: tempo.","Si osserva l’andamento istantaneo."]},"right":{"title":"Dominio della frequenza","items":["Asse orizzontale: frequenza.","Si osservano le componenti armoniche."]}},
+    {"type":"table","columns":["Segnale","Spettro ideale"],"rows":[["Sinusoide pura","Una riga alla frequenza f"],["Somma di due sinusoidi","Due righe alle frequenze corrispondenti"],["Segnale periodico complesso","Fondamentale e armoniche"]]},
+    {"type":"note","text":"La larghezza di banda e la distribuzione dell’energia nello spettro sono centrali nei sistemi di trasmissione."},
+    {"type":"recap","text":"Tempo e frequenza descrivono lo stesso segnale da due prospettive complementari."}
+  ]
+}

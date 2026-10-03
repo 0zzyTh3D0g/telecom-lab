@@ -1,0 +1,14 @@
+{
+  "schemaVersion":1,"id":"segnale-sinusoidale","slug":"segnale-sinusoidale","title":"Segnale sinusoidale","summary":"Ampiezza, frequenza e fase nella rappresentazione temporale di una sinusoide.","year":3,"module":"Segnali","topic":"Forme d’onda","difficulty":"base","prerequisites":["grandezze-periodiche"],"tags":["sinusoide","ampiezza","fase"],"order":2,"related":["frequenza-periodo","spettro-segnale"],
+  "blocks":[
+    {"type":"paragraph","text":"La sinusoide è un modello fondamentale per descrivere segnali periodici. Tre parametri ne determinano l’aspetto: ampiezza, frequenza e fase iniziale."},
+    {"type":"formula","latex":"v(t)=V_m\\sin(2\\pi f t+\\varphi)","caption":"Espressione di una tensione sinusoidale.","variables":[{"symbol":"Vₘ","description":"ampiezza massima","unit":"V"},{"symbol":"f","description":"frequenza","unit":"Hz"},{"symbol":"φ","description":"fase iniziale","unit":"rad"},{"symbol":"t","description":"tempo","unit":"s"}]},
+    {"type":"heading","level":2,"text":"Leggere la forma d’onda"},
+    {"type":"concept","title":"Ampiezza","text":"L’ampiezza indica il valore massimo rispetto allo zero. Se raddoppia, i picchi si allontanano dall’asse temporale."},
+    {"type":"concept","title":"Frequenza","text":"La frequenza indica quanti cicli si ripetono al secondo. A frequenza maggiore corrisponde un periodo minore."},
+    {"type":"concept","title":"Fase","text":"La fase iniziale sposta la forma d’onda lungo l’asse temporale senza modificarne ampiezza o frequenza."},
+    {"type":"simulation","simulationId":"signal-sine","title":"Esplora una sinusoide","config":{"amplitude":{"min":0.5,"max":10,"default":5},"frequency":{"min":20,"max":1000,"default":100},"phase":{"min":-180,"max":180,"default":45}}},
+    {"type":"important","title":"Attenzione alle unità","text":"Nella formula la fase è espressa in radianti. Il controllo della simulazione usa gradi e li converte internamente in radianti."},
+    {"type":"recap","text":"Una sinusoide si descrive con ampiezza, frequenza e fase. Il periodo è il reciproco della frequenza."}
+  ]
+}

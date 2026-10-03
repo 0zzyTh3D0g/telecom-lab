@@ -1,0 +1,10 @@
+import { useEffect, useState } from 'react'
+import { db,errorMessage } from '../../backend/client'
+type Row={id:string;username:string;first_name:string;last_name:string;year_label:string;group_name:string;track_name:string;level_label:string;started_at:string;ended_at:string|null;status:string;outcome:string|null;provenance:string}
+const statusLabels:Record<string,string>={active:'Attiva',completed:'Conclusa',transferred:'Gruppo cambiato',withdrawn:'Ritirata'}
+const outcomeLabels:Record<string,string>={promoted:'Avanza',repeat:'Ripete il livello',completed_path:'Completa il percorso',transferred_out:'Trasferimento / uscita',left:'Uscita dall’istituto',other:'Variazione registrata'}
+export function EnrollmentHistory({userId,groupId}:{userId?:string;groupId?:string}) {
+ const [open,setOpen]=useState(false),[rows,setRows]=useState<Row[]>([]),[page,setPage]=useState(0),[message,setMessage]=useState('')
+ useEffect(()=>{if(!open||!db)return;let valid=true;db.rpc('enrollment_history',{uid:userId||null,gid:groupId||null,page_number:page}).then(({data,error})=>{if(!valid)return;if(error)setMessage(errorMessage(error));else setRows(data||[])});return()=>{valid=false}},[open,userId,groupId,page])
+ return <details className="enrollment-history" open={open} onToggle={e=>setOpen(e.currentTarget.open)}><summary>{groupId?'Iscrizioni attuali e concluse':'Percorso'}</summary>{message&&<p role="alert">{message}</p>}<ol>{rows.map(r=><li key={r.id}><strong>{groupId?`${r.first_name} ${r.last_name} · `:''}{r.year_label} · {r.group_name}</strong><p>{r.track_name} · {r.level_label} · {r.started_at} → {r.ended_at||'in corso'}</p><small>{statusLabels[r.status]||r.status} · {r.outcome?outcomeLabels[r.outcome]||r.outcome:'Esito non registrato'}{r.provenance.startsWith('P3.1')?' · Data iniziale ricostruita dall’anno, ingresso esatto non disponibile':''}</small></li>)}</ol><button className="button subtle" disabled={page===0} onClick={()=>setPage(v=>v-1)}>Precedenti</button><button className="button subtle" disabled={rows.length<50} onClick={()=>setPage(v=>v+1)}>Successive</button></details>
+}
